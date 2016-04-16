@@ -39,21 +39,49 @@ module Elisa
       let(:inputs) { { movie: Input.new(0, -2), sun: Input.new(0, -2) } }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
       
-      it { expect(neuron.output).to eq 3 } # so positive
+      it { expect(neuron.output).to eq 1 } # yes
     end
 
-    context "with input 01" do
+    context "with input 01, shall I do it?" do
       let(:inputs) { { movie: Input.new(0, -2), sun: Input.new(1, -2) } }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
       
-      it { expect(neuron.output).to eq 1 } # so positive
+      it { expect(neuron.output).to eq 1 } # yes
     end
 
-    context "with input 11" do
+    context "with input 11, shall I do it?" do
       let(:inputs) { { movie: Input.new(1, -2), sun: Input.new(1, -2) } }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
       
-      it { expect(neuron.output).to eq 0 } # so positive
+      it { expect(neuron.output).to eq 0 } # no
+    end
+
+    context "with input 1134231, shall I do it?" do
+      let(:inputs) { 
+        { 
+          movie:     Input.new(1, -2),
+          sun:       Input.new(1, 6),
+          ciccio:    Input.new(3, -2),
+          color:     Input.new(4, -80),
+          ivona:     Input.new(2, 1),
+          somethin:  Input.new(3, 3),
+          autobus:   Input.new(1, -1),
+        }
+      }
+      let(:neuron) { Perceptron.new(0, 3, inputs) }
+      
+      it { expect(neuron.output).to eq 0 } # no
+    end
+
+    context "suppose we did have a perceptron with no inputs" do
+      it "the perceptron would output 11 if b > 0" do
+        neuron = Perceptron.new(0, 3)
+        expect(neuron.output).to be 1
+      end
+      it "and 00 if b ≤ 0" do
+        neuron = Perceptron.new(0, -3)
+        expect(neuron.output).to be 0
+      end
     end
 
   end

@@ -12,7 +12,7 @@ module Elisa
         sum += input.strenght * input.value
       end
 
-      sum > 0 ? sum : 0
+      sum >= 0 ? 1 : 0
     end
   end
 end
