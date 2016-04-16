@@ -8,17 +8,14 @@ module Elisa
     end
 
     def run
-      output
+      return output
     end
     
     private
     
     def output
       sum = 0 + bias
-      inputs.each do |name, input|
-        sum += input.strenght * input.value.to_i # important as a Perceptron accepts only integers
-      end
-
+      inputs.each { |name, input| sum += input.strenght * input.value.to_i }
       @result = sum >= 0 ? 1 : 0
     end
   end
