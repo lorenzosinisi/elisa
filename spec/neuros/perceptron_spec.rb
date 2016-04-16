@@ -6,8 +6,9 @@ module Elisa
     it { expect(Perceptron.superclass).to be(Neuron) }
     context "when initialized" do
       it { expect(subject).to respond_to :layer     }
-      it { expect(subject).to respond_to :bias }
+      it { expect(subject).to respond_to :bias      }
       it { expect(subject).to respond_to :inputs    }
+      it { expect(subject).to respond_to :result    }
       context "without parameters" do
         it "should have layer equal to 0" do
           expect(subject.layer).to be 0
@@ -33,27 +34,35 @@ module Elisa
       end
     end
   end
-  context "simple decision: movie really bad and not a sunny day" do
+  context "Make a decision:" do
     
     context "with input 00" do
       let(:inputs) { { movie: Input.new(0, -2), sun: Input.new(0, -2) } }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
       
-      it { expect(neuron.output).to eq 1 } # yes
+      it { expect(neuron.send(:output)).to eq 1 } # yes
     end
 
     context "with input 01, shall I do it?" do
       let(:inputs) { { movie: Input.new(0, -2), sun: Input.new(1, -2) } }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
       
-      it { expect(neuron.output).to eq 1 } # yes
+      it { expect(neuron.send(:output)).to eq 1 } # yes
     end
 
     context "with input 11, shall I do it?" do
       let(:inputs) { { movie: Input.new(1, -2), sun: Input.new(1, -2) } }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
       
-      it { expect(neuron.output).to eq 0 } # no
+      it { expect(neuron.send(:output)).to eq 0 } # no
+    end
+    context "float inputs:" do
+      context "0.6 0.3, shall I do it?" do
+        let(:inputs) { { movie: Input.new(0.6, -2), sun: Input.new(0.3, -2) } }
+        let(:neuron) { Perceptron.new(0, 3, inputs) }
+        
+        it { expect(neuron.send(:output)).to eq 1 } # yes (as it will convert float to int so 00)
+      end
     end
 
     context "with input 1134231, shall I do it?" do
@@ -69,18 +78,23 @@ module Elisa
         }
       }
       let(:neuron) { Perceptron.new(0, 3, inputs) }
-      
-      it { expect(neuron.output).to eq 0 } # no
+      it { expect(neuron.send(:output)).to eq 0 } # no
     end
 
     context "suppose we did have a perceptron with no inputs" do
       it "the perceptron would output 11 if b > 0" do
         neuron = Perceptron.new(0, 3)
-        expect(neuron.output).to be 1
+        expect(neuron.send(:output)).to be 1
+      end
+      context "using #run" do
+        it "the perceptron would call output" do
+          neuron = Perceptron.new(0, 3)
+          expect(neuron.run).to be 1
+        end
       end
       it "and 00 if b ≤ 0" do
         neuron = Perceptron.new(0, -3)
-        expect(neuron.output).to be 0
+        expect(neuron.send(:output)).to be 0
       end
     end
 
