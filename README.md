@@ -1,5 +1,5 @@
 # Elisa
-Experimenting AI and Neural Networks with Ruby
+Experimenting AI and Neural Networks with Ruby (http://neuralnetworksanddeeplearning.com)
 
 ## Installation
 
